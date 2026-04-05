@@ -10,17 +10,33 @@ declare global {
   }
 }
 export function middleware(req: Request, res: Response, next: NextFunction) {
-  const token = req.headers["authorization"] ?? "";
+  const authorizationHeader = req.headers["authorization"] ?? "";
+  const token = authorizationHeader.startsWith("Bearer ")
+    ? authorizationHeader.slice("Bearer ".length)
+    : authorizationHeader;
 
-  const decoded = jwt.verify(token, JWT_SECRET);
+  if (!token) {
+    res.status(403).json({
+      message: "Unauthorized"
+    });
+    return;
+  }
 
-  if(decoded){
-    req.userId = (decoded as jwt.JwtPayload).userId;
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+
+    if (!decoded.userId) {
+      res.status(403).json({
+        message: "Unauthorized"
+      });
+      return;
+    }
+
+    req.userId = decoded.userId;
     next();
-
-  }else{
+  } catch {
     res.status(403).json({
         message: "Unauthorized"
-    })
+    });
   }
 }
