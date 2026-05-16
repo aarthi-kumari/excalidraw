@@ -1,159 +1,144 @@
-# Turborepo starter
+# Excalidraw Monorepo
 
-This Turborepo starter is maintained by the Turborepo core team.
+A full-stack web development monorepo built with **Turborepo**, **Next.js**, **TypeScript**, and **pnpm workspaces** — scaffolded to support an Excalidraw-style collaborative drawing application.
 
-## Using this example
+---
 
-Run the following command:
+## 📁 Project Structure
 
-```sh
-npx create-turbo@latest
+```
+excalidraw/
+├── apps/
+│   ├── web/          # Main Next.js application
+│   └── docs/         # Next.js documentation app
+├── packages/
+│   ├── @repo/ui              # Shared React component library
+│   ├── @repo/eslint-config   # Shared ESLint configuration
+│   └── @repo/typescript-config  # Shared TypeScript configuration
+├── package.json
+├── pnpm-workspace.yaml
+├── turbo.json
+└── .npmrc
 ```
 
-## What's inside?
+Each app and package is written in **100% TypeScript**.
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+## 🛠️ Tech Stack
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+| Tool | Purpose |
+|------|---------|
+| [Turborepo](https://turborepo.dev) | Monorepo build system with caching |
+| [Next.js](https://nextjs.org) | React framework for `web` and `docs` apps |
+| [TypeScript](https://www.typescriptlang.org) | Static type checking across the monorepo |
+| [pnpm](https://pnpm.io) | Fast, disk-efficient package manager |
+| [ESLint](https://eslint.org) | Code linting |
+| [Prettier](https://prettier.io) | Code formatting |
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+---
 
-### Utilities
+## ⚙️ Prerequisites
 
-This Turborepo has some additional tools already setup for you:
+- **Node.js** >= 18
+- **pnpm** 9.0.0
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+---
 
-### Build
+## 🚀 Getting Started
 
-To build all apps and packages, run the following command:
+### 1. Clone the repository
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+```bash
+git clone https://github.com/aarthi-kumari/excalidraw.git
+cd excalidraw
 ```
 
-Without global `turbo`, use your package manager:
+### 2. Install dependencies
 
-```sh
-cd my-turborepo
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+pnpm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+### 3. Start development servers
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+```bash
+# All apps
+pnpm dev
 
-```sh
+# Or with global turbo
+turbo dev
+
+# Specific app only
+turbo dev --filter=web
+turbo dev --filter=docs
+```
+
+---
+
+## 📦 Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start all apps in development mode |
+| `pnpm build` | Build all apps and packages |
+| `pnpm lint` | Lint all packages |
+| `pnpm format` | Format all `.ts`, `.tsx`, and `.md` files with Prettier |
+| `pnpm check-types` | Run TypeScript type checking across the monorepo |
+
+### Build a specific app
+
+```bash
+turbo build --filter=web
 turbo build --filter=docs
 ```
 
-Without global `turbo`:
+---
 
-```sh
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+## 🧩 Packages
 
-### Develop
+### `apps/web`
+The primary Next.js application — the main Excalidraw canvas interface.
 
-To develop all apps and packages, run the following command:
+### `apps/docs`
+A Next.js documentation site for the project.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+### `@repo/ui`
+A shared React component library consumed by both `web` and `docs` apps.
 
-```sh
-cd my-turborepo
-turbo dev
-```
+### `@repo/eslint-config`
+Centralised ESLint config extending `eslint-config-next` and `eslint-config-prettier`.
 
-Without global `turbo`, use your package manager:
+### `@repo/typescript-config`
+Shared `tsconfig.json` base configurations used throughout the monorepo.
 
-```sh
-cd my-turborepo
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+---
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## ☁️ Remote Caching (Optional)
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Turborepo supports [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) via Vercel to share build artifacts across machines and CI/CD pipelines.
 
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
+```bash
+# Authenticate with Vercel
 turbo login
-```
 
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
+# Link your repo to remote cache
 turbo link
 ```
 
-Without global `turbo`:
+> Vercel Remote Cache is free for all plans.
 
-```sh
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+---
 
-## Useful Links
+## 🔗 Useful Links
 
-Learn more about the power of Turborepo:
+- [Turborepo Docs](https://turborepo.dev/docs)
+- [Next.js Docs](https://nextjs.org/docs)
+- [pnpm Workspaces](https://pnpm.io/workspaces)
+- [Turborepo Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+---
+
+## 👩‍💻 Author
+
+**Aarthi Kumari** — [@aarthi-kumari](https://github.com/aarthi-kumari)
